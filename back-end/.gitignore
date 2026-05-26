@@ -1,0 +1,16 @@
+# Ignorar pastas de dependências
+node_modules/
+vendor/
+
+# Ignorar arquivos de configuração sensíveis e senhas
+.env
+config/secrets.yml
+
+# Ignorar logs e arquivos temporários
+*.log
+*.tmp
+temp/
+
+# Ignorar arquivos gerados pelo sistema operacional
+.DS_Store
+Thumbs.db
