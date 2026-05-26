@@ -1,4 +1,4 @@
-# recitech
+# ReciTech
 
 ## Nomes dos Integrantes | Função
 
