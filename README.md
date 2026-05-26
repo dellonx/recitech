@@ -4,3 +4,4 @@
 
 ### Allan Dellon Rodrigues De Carvalho - Scrum Master
 ### Maria Clara Nascimento Silva - P.O
+### Heitor De Oliveira Bezerra - Fullstack
