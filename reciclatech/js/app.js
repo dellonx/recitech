@@ -45,6 +45,34 @@ function navegarPara(idDaTela, elementoNav) {
 }
 
 // =========================================
+// FUNÇÃO DE ALTERNÂNCIA (LOGIN VS CADASTRO)
+// =========================================
+function alternarModoAutenticacao(modo) {
+    const campoNome = document.getElementById('login-nome');
+    const btnEntrar = document.getElementById('btn-entrar');
+    const btnCadastrar = document.getElementById('btn-cadastrar');
+    const linkCadastro = document.getElementById('toggle-para-cadastro');
+    const linkLogin = document.getElementById('toggle-para-login');
+    const titulo = document.getElementById('login-dinamico-titulo');
+
+    if (modo === 'cadastro') {
+        titulo.innerText = "Criar Nova Conta";
+        campoNome.style.display = 'block';
+        btnCadastrar.style.display = 'block';
+        btnEntrar.style.display = 'none';
+        linkCadastro.style.display = 'none';
+        linkLogin.style.display = 'block';
+    } else {
+        titulo.innerText = "Entrar no ReciclaTech";
+        campoNome.style.display = 'none';
+        btnCadastrar.style.display = 'none';
+        btnEntrar.style.display = 'block';
+        linkCadastro.style.display = 'block';
+        linkLogin.style.display = 'none';
+    }
+}
+
+// =========================================
 // INTEGRALIZAÇÃO DO MAPA REAL DINÂMICO
 // =========================================
 async function inicializarMapaReal() {
@@ -114,7 +142,8 @@ async function cadastrarUsuario() {
         if (profileError) {
             alert("Erro ao criar perfil: " + profileError.message);
         } else {
-            alert("Cadastro realizado com sucesso! Faça o login agora.");
+            alert("Cadastro realizado com sucesso! Mudando para a tela de login...");
+            alternarModoAutenticacao('login'); // Volta automaticamente pro modo login após o sucesso
             document.getElementById('login-nome').value = '';
         }
     }
@@ -253,8 +282,13 @@ window.addEventListener('DOMContentLoaded', () => {
     inicializarMapaReal();
     navegarPara('tela-mapa', document.getElementById('nav-mapa'));
 
+    // Configuração dos botões de ação de login/cadastro
     document.getElementById('btn-entrar').addEventListener('click', logarUsuario);
     document.getElementById('btn-cadastrar').addEventListener('click', cadastrarUsuario);
+
+    // --- ESCUTAS DE ALTERNÂNCIA DE TELA (NOVO) ---
+    document.getElementById('toggle-para-cadastro').addEventListener('click', () => alternarModoAutenticacao('cadastro'));
+    document.getElementById('toggle-para-login').addEventListener('click', () => alternarModoAutenticacao('login'));
 
     // Navbar Inferior
     document.getElementById('nav-mapa').addEventListener('click', (e) => navegarPara('tela-mapa', e.currentTarget));

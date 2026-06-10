@@ -18,16 +18,25 @@
         <section id="tela-login" class="app-section">
             <div class="login-container">
                 <div class="login-logo"><i class="ph-fill ph-leaf"></i></div>
-                <h2 class="login-title">ReciclaTech</h2>
+                <h2 id="login-dinamico-titulo" class="login-title">Entrar no ReciclaTech</h2>
+                
                 <div class="form-group">
-                    <input type="text" id="login-nome" class="form-input" placeholder="Digite seu nome (apenas para cadastro)">
-                    <input type="email" id="login-email" class="form-input" placeholder="Digite seu e-mail">
-                    <input type="password" id="login-senha" class="form-input" placeholder="Digite sua senha (Min. 6 Caracteres)">
+                    <input type="text" id="login-nome" class="form-input" placeholder="Seu nome completo" style="display: none;">
+                    <input type="email" id="login-email" class="form-input" placeholder="Seu e-mail">
+                    <input type="password" id="login-senha" class="form-input" placeholder="Sua senha">
                 </div>
+
                 <div class="login-btn-group">
                     <button id="btn-entrar" class="btn-action btn-confirm">Entrar</button>
-                    <button id="btn-cadastrar" class="btn-action btn-add">Criar Conta</button>
+                    <button id="btn-cadastrar" class="btn-action btn-confirm" style="display: none;">Concluir Cadastro</button>
                 </div>
+
+                <p id="toggle-para-cadastro" style="font-size: 0.9rem; color: var(--verde-primario); margin-top: 20px; cursor: pointer; font-weight: 600;">
+                    Não tem uma conta? Cadastre-se aqui
+                </p>
+                <p id="toggle-para-login" style="font-size: 0.9rem; color: var(--texto-secundario); margin-top: 20px; cursor: pointer; font-weight: 600; display: none;">
+                    Já tem uma conta? Faça o Login
+                </p>
             </div>
         </section>
 
