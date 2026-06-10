@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReciclaTech</title>
+    <link rel="stylesheet" href="css/global.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <section id="tela-login" class="app-section">
+            <div class="login-container">
+                <div class="login-logo"><i class="ph-fill ph-leaf"></i></div>
+                <h2 class="login-title">ReciclaTech</h2>
+                <div class="form-group">
+                    <input type="text" id="login-nome" class="form-input" placeholder="Digite seu nome (apenas para cadastro)">
+                    <input type="email" id="login-email" class="form-input" placeholder="Digite seu e-mail">
+                    <input type="password" id="login-senha" class="form-input" placeholder="Digite sua senha (Min. 6 Caracteres)">
+                </div>
+                <div class="login-btn-group">
+                    <button id="btn-entrar" class="btn-action btn-confirm">Entrar</button>
+                    <button id="btn-cadastrar" class="btn-action btn-add">Criar Conta</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="tela-mapa" class="app-section">
+            <header class="map-header">
+                <div class="user-greeting">
+                    <h1 id="user-name-greeting">Olá!</h1>
+                    <p>O que nós iremos reciclar hoje?</p>
+                </div>
+                <div id="user-avatar-trigger" class="user-avatar" style="cursor: pointer;">
+                    <i class="ph-fill ph-user-circle" style="font-size: 40px; color: var(--verde-primario);"></i>
+                </div>
+            </header>
+            <div class="map-container" id="mapa-container-real" style="width: 100%; flex-grow: 1; z-index: 1;">
+            </div>
+        </section>
+
+        <section id="tela-lojas" class="app-section">
+            <header class="top-header"><h2>Pontos de coleta</h2></header>
+            <div class="content-area" style="padding: 15px;">
+                <div class="tabs-container">
+                    <button class="tab active">Com moedas</button>
+                    <button class="tab">Geral</button>
+                </div>
+                <div class="mascot-banner">
+                    <div class="balance-info">
+                        <div class="coin-display">
+                            <i class="ph-fill ph-coin" style="color: #d4af37;"></i>
+                            <span class="balance-value">0</span>
+                        </div>
+                    </div>
+                    <div class="speech-bubble"><p>Confira em quais pontos estão distribuídos suas RecCoins:</p></div>
+                    <div class="mascot-img-placeholder"><i class="ph-fill ph-robot"></i></div>
+                </div>
+                <div class="stores-list">
+                    <div class="store-card border-green">
+                        <span class="line-label green-text">Linha verde</span>
+                        <div class="card-body">
+                            <div class="store-logo"><i class="ph ph-recycle"></i></div>
+                            <div class="store-info">
+                                <h3>Ju Eletrônicos</h3>
+                                <p>Você possui <i class="ph-fill ph-coin" style="color: #d4af37;"></i> 1000 RecCoins</p>
+                            </div>
+                            <button class="btn-loja btn-green">Ir para a Loja</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tela-historico" class="app-section">
+            <header class="top-header"><h2>Histórico</h2></header>
+            <div class="content-area" style="padding: 15px;">
+                <div class="tabs-container">
+                    <button id="btn-pendentes" class="tab">Pendentes</button>
+                    <button id="btn-finalizados" class="tab active">Finalizados</button>
+                </div>
+                <div id="lista-finalizados" class="history-list">
+                    <div class="history-card">
+                        <h3 class="store-name">Ju eletrônicos</h3>
+                        <p class="action-desc">descarte de aparelho eletrônico (tablet)</p>
+                        <div class="card-footer">
+                            <span class="date-time">30/04/2026, 13:31</span>
+                            <span class="coins-amount plus">+ 530 RecCoins</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="lista-pendentes" class="history-list" style="display: none;">
+                    <div class="history-card">
+                        <h3 class="store-name">Magalu</h3>
+                        <p class="action-desc">descarte de aparelho eletrônico (Teclado)</p>
+                        <div class="card-footer">
+                            <span class="date-time">Aguardando confirmação</span>
+                            <span class="coins-amount plus" style="color: #999;">+ 150 RecCoins</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tela-scanner" class="app-section">
+            <header class="top-header">
+                <h2>Scanner de Coleta</h2>
+            </header>
+            
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js" integrity="sha512-r6rDA7W6ZeQhvl8S7nEBzRjDf9vHz3nG19rfQX9pHGnBwZgVNTCUG7VJ8GHSdH+kvtl95KBIK7bQ9LMCHrCQVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+            <div class="content-area" style="padding: 20px; display: flex; flex-direction: column; align-items: center;">
+                
+                <div id="reader" style="width: 100%; max-width: 350px; border-radius: 15px; overflow: hidden; margin-bottom: 20px;"></div>
+                
+                <div id="step-discard" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                    <div style="font-size: 100px; color: #000; margin: 10px 0;"><i class="ph ph-device-mobile"></i></div>
+                    <h3 style="font-size: 1.4rem; font-weight: bold; margin-bottom: 15px;">Celular</h3>
+                    <p style="font-size: 0.9rem; color: var(--texto-secundario); font-weight: bold; margin-bottom: 25px; text-align: center;">
+                        Ganhe 300 RecCoins e ajude o meio ambiente!
+                    </p>
+                    
+                    <div class="button-group" style="width: 80%; margin-bottom: 30px;">
+                        <button id="btn-simular-descarte" class="btn-action btn-confirm">Confirmar c/ QrCode</button>
+                    </div>
+                </div>
+
+                <p style="font-size: 0.8rem; color: var(--texto-secundario); font-weight: bold; margin-bottom: 10px;">
+                    Ou digite o código do totem manualmente:
+                </p>
+                <div class="form-group" style="width: 80%; margin-bottom: 15px;">
+                    <input type="text" id="scanner-codigo-manual" class="form-input" placeholder="Ex: RECICLA-JU-300" style="text-align: center; text-transform: uppercase;">
+                </div>
+                <div class="button-group" style="width: 80%;">
+                    <button id="btn-confirmar-codigo" class="btn-action btn-gray">Confirmar Código Código</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="tela-scanner" class="app-section">
+    <header class="top-header">
+        <h2>Scanner de Coleta</h2>
+    </header>
+
+    <div class="content-area" style="padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        
+        <div id="step-discard" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div style="font-size: 100px; color: var(--verde-primario); margin: 10px 0;"><i class="ph ph-device-mobile"></i></div>
+            <h3 style="font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; color: var(--texto-escuro);">Descarte de Celular</h3>
+            <p style="font-size: 0.9rem; color: var(--texto-secundario); font-weight: bold; margin-bottom: 25px; text-align: center;">
+                Insira o código do totem de coleta para computar suas RecCoins!
+            </p>
+        </div>
+
+        <div class="form-group" style="width: 100%; max-width: 300px; margin-bottom: 15px;">
+            <input type="text" id="scanner-codigo-manual" class="form-input" placeholder="DIGITE: RECICLA-JU-300" style="text-align: center; text-transform: uppercase; font-weight: bold; font-size: 1.1rem;">
+        </div>
+        
+        <div class="button-group" style="width: 100%; max-width: 300px;">
+            <button id="btn-confirmar-codigo" class="btn-action btn-confirm">Confirmar Descarte</button>
+        </div>
+    </div>
+</section>
+
+        <section id="tela-ranking" class="app-section">
+            <header class="top-header" style="position: relative;">
+                <button id="btn-voltar-ranking" style="position: absolute; left: 15px; background: none; border: none; font-size: 1.5rem; color: #fff; cursor: pointer;">
+                    <i class="ph ph-arrow-left"></i>
+                </button>
+                <h2>Ranking Global</h2>
+            </header>
+            <div class="content-area" style="padding: 20px; display: flex; flex-direction: column; width: 100%;">
+                <p style="font-size: 0.9rem; color: var(--texto-secundario); text-align: center; margin-bottom: 20px; font-weight: bold;">
+                    🏆 Os maiores recicladores de Recife!
+                </p>
+                
+                <div id="lista-ranking" style="width: 100%; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;">
+                </div>
+            </div>
+        </section>
+
+        <nav id="app-bottom-nav" class="bottom-nav">
+            <button id="nav-mapa" class="nav-item active"><i class="ph-fill ph-map-pin"></i><span>Mapa</span></button>
+            <button id="nav-lojas" class="nav-item"><i class="ph-fill ph-storefront"></i><span>Lojas</span></button>
+            <button id="nav-historico" class="nav-item"><i class="ph-fill ph-receipt"></i><span>Histórico</span></button>
+            <button id="nav-scanner" class="nav-item"><i class="ph-fill ph-qr-code"></i><span>Scanner</span></button>
+        </nav>
+
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
